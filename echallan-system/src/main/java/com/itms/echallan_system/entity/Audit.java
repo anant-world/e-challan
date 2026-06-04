@@ -1,39 +1,41 @@
 package com.itms.echallan_system.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "vehicles")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicles {
+@Table(name = "audit_logs")
+public class Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String registrationNo;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private String ownerName;
+    @ManyToOne
+    @JoinColumn(name = "violation_id")
+    private Violation violation;
 
-    private Integer mobileNo;
+    private String action;
 
-    private String vehicleName;
+    private String old_status;
 
-    private String model;
+    private String new_status;
 
-    @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    private String remarks;
+
     private LocalDateTime created_at;
-
-
 }

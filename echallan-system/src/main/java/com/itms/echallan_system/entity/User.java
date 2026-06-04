@@ -19,9 +19,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
 
-
+    @Column(unique = true,nullable = false)
     private String email;
 
     private String password;
@@ -32,5 +32,5 @@ public class User {
 
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

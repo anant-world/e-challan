@@ -1,35 +1,31 @@
 package com.itms.echallan_system.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "offences")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Offences {
+@Table(name = "evidences")
+public class Evidences {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="offence_code" , unique = true)
-    private String offenceCode;
+    private String fileType;
 
-    private String description;
+    private LocalDateTime uploaded_at;
 
-    @Column(name="challan_amount")
-    private BigDecimal challanAmount;
-
-    private String status;
-
-
+    @ManyToOne
+    @JoinColumn(name = "violation_id")
+    private Violation violation;
 }

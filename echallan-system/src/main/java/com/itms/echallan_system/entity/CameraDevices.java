@@ -20,7 +20,7 @@ public class CameraDevices {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
     private String cameraName;
     private String cameraType;
     private String locationName;

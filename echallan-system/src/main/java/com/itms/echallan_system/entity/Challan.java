@@ -7,33 +7,45 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "vehicles")
 @Getter
 @Setter
+@Table(name = "challan")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicles {
+public class Challan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne
+    @JoinColumn(name = "violation_id")
+    private Violation violation;
 
-    private String registrationNo;
+    @OneToOne
+    @JoinColumn(name="notice_id")
+    private Notices notice;
 
-    private String ownerName;
+    @Column(unique = true)
+    private String challan_no;
 
-    private Integer mobileNo;
+    private BigDecimal amount;
 
-    private String vehicleName;
+    private Date issue_date;
 
-    private String model;
+    private Date due_date;
+
+    private String status;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
     private LocalDateTime created_at;
-
 
 }
