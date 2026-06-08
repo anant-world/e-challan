@@ -30,5 +30,8 @@ public class CameraDevices {
     private BigDecimal longitude;
     private String Status;
 
+    @Column(name = "api_key",unique = true)
+    private String apiKey;
+
 
 }

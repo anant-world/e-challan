@@ -31,7 +31,7 @@ public class Challan {
     private Notices notice;
 
     @Column(name = "challan_no",unique = true,nullable = false)
-    private String challan_no;
+    private String challanNo;
 
     private BigDecimal amount;
 

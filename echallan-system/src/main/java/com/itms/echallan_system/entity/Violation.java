@@ -72,7 +72,7 @@ public class Violation {
     @Column(name = "road_catg")
     private String roadCatg;
 
-    @Column(name = "road_lane_no")
+    @Column(name = "road_lane_no",nullable = true)
     private String roadLaneNo;
 
     @Column(name = "district")
@@ -99,9 +99,6 @@ public class Violation {
     @Column(name = "verified_at")
     private LocalDateTime verifiedAt;
 
-    // ==========================
-    // Relationships
-    // ==========================
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
