@@ -21,19 +21,10 @@ public class Vehicles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="registration_no",unique=true)
     private String registrationNo;
 
-    private String ownerName;
-
-    private Integer mobileNo;
-
-    private String vehicleName;
-
-    private String model;
-
-    @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
-    private LocalDateTime created_at;
-
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 
 }

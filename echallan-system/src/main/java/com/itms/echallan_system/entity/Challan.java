@@ -30,16 +30,20 @@ public class Challan {
     @JoinColumn(name="notice_id")
     private Notices notice;
 
-    @Column(unique = true)
+    @Column(name = "challan_no",unique = true,nullable = false)
     private String challan_no;
 
     private BigDecimal amount;
 
+    @Column(name="issue_date")
     private Date issue_date;
 
+    @Column(name="due_date")
     private Date due_date;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ChallanStatus status;
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;

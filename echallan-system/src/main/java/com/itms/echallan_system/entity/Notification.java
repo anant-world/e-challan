@@ -23,11 +23,15 @@ public class Notification {
     private long id;
     @ManyToOne
     @JoinColumn(name = "violation_id")
-    private Violation violation_id;
+    private Violation violation;
 
-    private Integer mobileNo;
+    private String mobileNo;
 
     private String message;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "notification_type")
+    private NotificationType notificationType;
 
     @CreationTimestamp
     @Column(name = "sent_at",updatable = false)

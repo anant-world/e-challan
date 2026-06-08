@@ -24,13 +24,18 @@ public class Notices {
     @JoinColumn(name = "violation_id")
     private Violation violation;
 
+    @Column(name = "notice_number",unique = true,nullable = false)
     private String noticeNumber;
 
+    @Column(name = "issue_date")
     private Date issue_Date;
 
+    @Column(name = "expiry_date")
     private Date expiry_Date;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private NoticeStatus status;
 
     @ManyToOne
     @JoinColumn(name = "created_by")

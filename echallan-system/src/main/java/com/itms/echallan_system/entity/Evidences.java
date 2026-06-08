@@ -23,6 +23,13 @@ public class Evidences {
 
     private String fileType;
 
+    @Column(name="image_path")
+    private String imagePath;
+
+    @Column(name = "image_Order")
+    private Integer imageOrder;
+
+    @Column(name = "uploaded_at")
     private LocalDateTime uploaded_at;
 
     @ManyToOne
