@@ -56,6 +56,4 @@ public class CctvNoticeDto {
     private String videoLinkUrl;
     private String district;
 
-    
-
 }

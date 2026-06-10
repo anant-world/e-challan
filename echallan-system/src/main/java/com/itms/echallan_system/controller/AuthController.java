@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -24,8 +25,6 @@ public class AuthController {
     public ResponseEntity<String> register(@Valid @RequestBody RegistrationDTO request){
        registerService.registerUser(request);
        return  ResponseEntity.status(HttpStatus.CREATED).body("user registered successfully");
+
     }
-
-
-
 }
