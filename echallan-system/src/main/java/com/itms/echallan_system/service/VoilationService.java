@@ -6,5 +6,5 @@ import com.itms.echallan_system.dto.PushViolationResponseDto;
 
 public interface VoilationService {
 
-    PushViolationResponseDto pushData(CctvNoticeDto dto);
+    PushViolationResponseDto pushData(PushViolationRequestDto request);
 }

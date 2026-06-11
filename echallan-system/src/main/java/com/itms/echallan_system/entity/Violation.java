@@ -29,6 +29,9 @@ public class Violation {
     @Column(name = "dp_cd")
     private String dpCd;
 
+    @Column(name = "RegistrationNo")
+    private String RegistrationNo;
+
     // Violation Source (RLVD, SLVD, OSVD etc.)
     @Column(name = "violation_source")
     private String violationSource;

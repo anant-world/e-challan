@@ -1,7 +1,11 @@
 package com.itms.echallan_system.dto;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+@Getter
+@Setter
 public class PushViolationRequestDto {
 
     private List<CctvNoticeDto> cctvNoticeData;
