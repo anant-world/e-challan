@@ -13,6 +13,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +35,7 @@ public class ViolationServiceImple implements VoilationService{
 
         for (CctvNoticeDto dto:request.getCctvNoticeData()){
 
-            Vehicles vehicle=vehicleRepository.findByRegistrationNo(dto.getRegnNo())
-                    .orElseThrow(()->new RuntimeException("Vehicle not found"));
+
 
             Offences offence=offenceRepository.findByOffenceCode(dto.getOffenceId())
                     .orElseThrow(()->new RuntimeException("offence not found"));
@@ -43,15 +44,57 @@ public class ViolationServiceImple implements VoilationService{
 
             violation.setTransactionNo(dto.getTransationNo());
 
-            violation.setDpCd(dto.getDbCd());
+            violation.setDpCd(dto.getDpCd());
 
             violation.setLocation(dto.getLocation());
 
             violation.setStateCd(dto.getStateCd());
 
-            violation.setVehicle(vehicle);
+
 
             violation.setOffence(offence);
+
+            violation.setRegistrationNo(dto.getRegnNo());
+
+            violation.setViolationSource(dto.getViolationSource());
+
+            violation.setViolationSourceCatg(dto.getViolationSourceCatg());
+
+            violation.setOffCd(dto.getOffCd());
+
+            violation.setVendorName(dto.getVendorName());
+
+            violation.setEquipmentId(dto.getEquipmentId());
+
+            violation.setLatitude(BigDecimal.valueOf(dto.getLatitude()));
+
+            violation.setLongitude(BigDecimal.valueOf(dto.getLongitude()));
+
+            violation.setVehicleSpeed(dto.getVehicleSpeed());
+
+
+            violation.setSpeedLimit(dto.getSpeedLimit());
+
+            violation.setVehicleWeight(dto.getVehicleWeight());
+
+            violation.setVhClass(dto.getVhClass());
+
+            violation.setRoadCatg(dto.getRoadCatg());
+
+            violation.setRoadLaneNo(dto.getRoadLaneNo());
+
+            violation.setPoliceStationName(dto.getPoliceStationName());
+
+            violation.setVideoLinkUrl(dto.getVideoLinkUrl());
+
+            violation.setViolationTime(dto.getViolationTime());
+
+            violation.setDistrict(dto.getDistrict());
+
+            violation.setDistrictId(dto.getDistrictId());
+
+            violation.setActionTime(dto.getActionTime());
+
 
             Violation savedViolation= violationRepository.save(violation);
 
@@ -67,19 +110,26 @@ public class ViolationServiceImple implements VoilationService{
 
             saveDataList.add(saveData);
 
+
         }
 
        ResponseMessageDto response= new ResponseMessageDto();
 
         response.setStatus("200");
 
-        response.setStatus("Data saved successfully");
+        response.setReason("Data saved successfully");
 
         response.setMessage("Success");
 
+        PushViolationResponseDto responseSave= new PushViolationResponseDto();
+        responseSave.setSaveData(saveDataList);
+        responseSave.setResponseMessageData(response);
+
+        responseSave.setRejectedData(new ArrayList<>());
 
 
-        return response;
+        
+        return responseSave;
 
     }
 }

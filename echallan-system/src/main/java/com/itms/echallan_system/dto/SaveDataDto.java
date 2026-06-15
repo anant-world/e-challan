@@ -33,7 +33,7 @@ public class SaveDataDto {
     private String StateCd;
 
     private String stateCd;
-    private String offCd;
+    private Integer offCd;
 
     private String totalFee;
     private String responseMsg;

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class CctvNoticeDto {
 
     private String offenceId;
-    private String dbCd;
+    private String dpCd;
 
     private String transationNo;
     private Long UserId;
@@ -24,7 +24,7 @@ public class CctvNoticeDto {
     private String stateCd;
     private String location;
 
-    private String offCd;
+    private Integer offCd;
     private String vendorName;
 
     private LocalDateTime violationTime;
