@@ -13,10 +13,19 @@ import lombok.Setter;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
+
+
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -87,7 +96,7 @@ public class ViolationServiceImple implements VoilationService{
 
             violation.setVideoLinkUrl(dto.getVideoLinkUrl());
 
-            violation.setViolationTime(dto.getViolationTime());
+            violation.setViolationTime(LocalDateTime.now());
 
             violation.setDistrict(dto.getDistrict());
 
@@ -98,11 +107,15 @@ public class ViolationServiceImple implements VoilationService{
 
             Violation savedViolation= violationRepository.save(violation);
 
+
+
             SaveDataDto saveData= new SaveDataDto();
 
             saveData.setTransactionNo(
                     savedViolation.getTransactionNo()
             );
+
+
 
             saveData.setRegnNo(dto.getRegnNo());
 
@@ -111,7 +124,12 @@ public class ViolationServiceImple implements VoilationService{
             saveDataList.add(saveData);
 
 
+
+
         }
+
+
+
 
        ResponseMessageDto response= new ResponseMessageDto();
 
@@ -128,8 +146,38 @@ public class ViolationServiceImple implements VoilationService{
         responseSave.setRejectedData(new ArrayList<>());
 
 
+
+
         
         return responseSave;
 
+
+
+
+
     }
+
+    private String saveImage(String base64Image,String fileName){
+        try{
+            String UploadDir="uploads/evidences/";
+
+            Files.createDirectories(Paths.get(UploadDir));
+
+            byte [] byteImage= Base64.getDecoder().decode(base64Image);
+
+            String path= UploadDir+fileName;
+
+            Files.write(Paths.get(path),byteImage);
+
+            return path;
+
+
+
+         } catch (IOException e) {
+            System.out.println(e);
+            throw new RuntimeException("failed to save image",e);
+
+        }
+    }
+
 }
