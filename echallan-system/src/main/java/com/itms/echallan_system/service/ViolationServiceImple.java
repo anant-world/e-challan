@@ -1,6 +1,7 @@
 package com.itms.echallan_system.service;
 
 import com.itms.echallan_system.dto.*;
+import com.itms.echallan_system.entity.Evidences;
 import com.itms.echallan_system.entity.Offences;
 import com.itms.echallan_system.entity.Vehicles;
 import com.itms.echallan_system.entity.Violation;
@@ -106,6 +107,20 @@ public class ViolationServiceImple implements VoilationService{
 
 
             Violation savedViolation= violationRepository.save(violation);
+
+            if(dto.getDistrict()!=null || dto.getImage1().isBlank()){
+                String path=saveImage(dto.getImage1(),dto.getTransationNo()+"_1.png" );
+            Evidences evidences=new Evidences();
+
+            evidences.setViolation(savedViolation);
+            evidences.setFileType("IMAGE");
+            evidences.setImagePath(path);
+            evidences.setImageOrder(1);
+            evidences.setUploaded_at(LocalDateTime.now());
+            evidencesRepository.save(evidences);
+
+            }
+
 
 
 
