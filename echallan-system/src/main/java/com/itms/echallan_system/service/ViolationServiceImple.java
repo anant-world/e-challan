@@ -10,13 +10,13 @@ import com.itms.echallan_system.repository.OffenceRepository;
 import com.itms.echallan_system.repository.VehicleRepository;
 import com.itms.echallan_system.repository.ViolationRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Path;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,10 @@ import java.util.Base64;
 
 
 
-
+@Transactional
 @Service
 @RequiredArgsConstructor
+
 public class ViolationServiceImple implements VoilationService{
 
     private final ViolationRepository violationRepository;
@@ -108,8 +109,13 @@ public class ViolationServiceImple implements VoilationService{
 
             Violation savedViolation= violationRepository.save(violation);
 
-            if(dto.getDistrict()!=null || dto.getImage1().isBlank()){
+            System.out.println("Image1 = " + dto.getImage1());
+            SaveDataDto saveData=new SaveDataDto();
+            if(dto.getImage1()!=null && !dto.getImage1().isBlank()){
                 String path=saveImage(dto.getImage1(),dto.getTransationNo()+"_1.png" );
+                System.out.println("Inside image block");
+                saveData.setImage1(path);
+
             Evidences evidences=new Evidences();
 
             evidences.setViolation(savedViolation);
@@ -119,12 +125,42 @@ public class ViolationServiceImple implements VoilationService{
             evidences.setUploaded_at(LocalDateTime.now());
             evidencesRepository.save(evidences);
 
+
+            }
+
+            if(dto.getImage2()!=null && !dto.getImage2().isBlank()){
+                String path=saveImage(dto.getImage1(),dto.getTransationNo()+"_2.png");
+                saveData.setImage2(path);
+
+                Evidences evidences=new Evidences();
+
+                evidences.setViolation(savedViolation);
+                evidences.setFileType("IMAGE_2");
+                evidences.setImagePath(path);
+                evidences.setImageOrder(2);
+                evidences.setUploaded_at(LocalDateTime.now());
+                evidencesRepository.save(evidences);
+            }
+
+            if(dto.getImage3()!=null && !dto.getImage3().isBlank()){
+                String path= saveImage(dto.getImage2(),dto.getTransationNo()+"_3.png");
+
+                saveData.setImage3(path);
+
+                Evidences evidences=new Evidences();
+                evidences.setViolation(savedViolation);
+                evidences.setFileType("IMAGE_3");
+                evidences.setImagePath(path);
+                evidences.setImageOrder(3);
+                evidences.setUploaded_at(LocalDateTime.now());
+                evidencesRepository.save(evidences);
+
             }
 
 
 
 
-            SaveDataDto saveData= new SaveDataDto();
+
 
             saveData.setTransactionNo(
                     savedViolation.getTransactionNo()
@@ -174,7 +210,7 @@ public class ViolationServiceImple implements VoilationService{
 
     private String saveImage(String base64Image,String fileName){
         try{
-            String UploadDir="uploads/evidences/";
+            String UploadDir="uploads/evidence/";
 
             Files.createDirectories(Paths.get(UploadDir));
 
