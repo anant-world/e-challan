@@ -5,12 +5,15 @@ import com.itms.echallan_system.entity.Evidences;
 import com.itms.echallan_system.entity.Offences;
 import com.itms.echallan_system.entity.Vehicles;
 import com.itms.echallan_system.entity.Violation;
+import com.itms.echallan_system.exception.DuplicateExceptionHandle;
+import com.itms.echallan_system.exception.ResourceNotFoundException;
 import com.itms.echallan_system.repository.EvidencesRepository;
 import com.itms.echallan_system.repository.OffenceRepository;
 import com.itms.echallan_system.repository.VehicleRepository;
 import com.itms.echallan_system.repository.ViolationRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +40,7 @@ public class ViolationServiceImple implements VoilationService{
     private final VehicleRepository vehicleRepository;
     private final OffenceRepository offenceRepository;
     private final EvidencesRepository evidencesRepository;
+    private final NoticeService noticeService;
 
     @Override
     public PushViolationResponseDto pushData(
@@ -49,7 +53,7 @@ public class ViolationServiceImple implements VoilationService{
 
 
             Offences offence=offenceRepository.findByOffenceCode(dto.getOffenceId())
-                    .orElseThrow(()->new RuntimeException("offence not found"));
+                    .orElseThrow(()->new ResourceNotFoundException("Offence not found" + dto.getOffenceId()));
 
             Violation violation= new Violation();
 
@@ -106,8 +110,15 @@ public class ViolationServiceImple implements VoilationService{
 
             violation.setActionTime(dto.getActionTime());
 
+            if (violationRepository.existsByTransactionNo(dto.getTransationNo())){
+                throw new DuplicateExceptionHandle("transaction already exsist" +dto.getTransationNo());
+            }
+
 
             Violation savedViolation= violationRepository.save(violation);
+
+            noticeService.generateNotice(savedViolation);
+
 
             System.out.println("Image1 = " + dto.getImage1());
             SaveDataDto saveData=new SaveDataDto();
@@ -129,7 +140,7 @@ public class ViolationServiceImple implements VoilationService{
             }
 
             if(dto.getImage2()!=null && !dto.getImage2().isBlank()){
-                String path=saveImage(dto.getImage1(),dto.getTransationNo()+"_2.png");
+                String path=saveImage(dto.getImage2(),dto.getTransationNo()+"_2.png");
                 saveData.setImage2(path);
 
                 Evidences evidences=new Evidences();
@@ -143,7 +154,7 @@ public class ViolationServiceImple implements VoilationService{
             }
 
             if(dto.getImage3()!=null && !dto.getImage3().isBlank()){
-                String path= saveImage(dto.getImage2(),dto.getTransationNo()+"_3.png");
+                String path= saveImage(dto.getImage3(),dto.getTransationNo()+"_3.png");
 
                 saveData.setImage3(path);
 
