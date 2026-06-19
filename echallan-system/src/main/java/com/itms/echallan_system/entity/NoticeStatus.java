@@ -9,5 +9,9 @@ public enum NoticeStatus {
 
     TRANSFERRED_TO_ECHALLAN,
 
-    CLOSED
+    CLOSED,
+
+    APPROVED,
+
+    REJECTED
 }
