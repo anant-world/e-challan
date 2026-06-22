@@ -21,7 +21,9 @@ public class securityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/auth/register","/api/violation/**","/api/notices/**","/api/challan/**").permitAll().anyRequest().authenticated())
+                        .requestMatchers("/api/auth/register","/api/violation/**","/api/notices/**","/api/challan/**", "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html").permitAll().anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
 
