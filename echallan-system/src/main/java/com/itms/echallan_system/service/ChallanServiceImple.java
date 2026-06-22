@@ -1,14 +1,13 @@
 package com.itms.echallan_system.service;
 
-import com.itms.echallan_system.entity.Challan;
-import com.itms.echallan_system.entity.ChallanStatus;
-import com.itms.echallan_system.entity.Notices;
-import com.itms.echallan_system.entity.Violation;
+import com.itms.echallan_system.entity.*;
+import com.itms.echallan_system.exception.ResourceNotFoundException;
 import com.itms.echallan_system.repository.ChallanRepository;
+import com.itms.echallan_system.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,9 +17,14 @@ import java.util.Date;
 public class ChallanServiceImple implements ChallanService{
 
     private final ChallanRepository challanRepository;
+    private final NoticeRepository noticeRepository;
 
-    public Challan generateChallan(Notices notice){
+
+
+    public Challan generateChallan(Long noticeId){
         Challan challan = new Challan();
+
+        Notices notice = noticeRepository.findById(noticeId).orElseThrow(()->new RuntimeException("Notice not found :"+noticeId));
 
         challan.setNotice(notice);
 
@@ -42,7 +46,43 @@ public class ChallanServiceImple implements ChallanService{
 
         challan.setStatus(ChallanStatus.PENDING);
 
+
+
         return challanRepository.save(challan);
 
+    }
+
+    @Transactional
+    public Challan generateNotice(Long noticeId){
+        Notices notice= noticeRepository.findById(noticeId).orElseThrow(()-> new ResourceNotFoundException("challan not found" + noticeId));
+
+        if(notice.getStatus()!= NoticeStatus.APPROVED) {
+            throw new RuntimeException("Notice not found exception");
+
+
+        };
+        if (challanRepository.existsByNoticeId(noticeId)) {
+            throw new RuntimeException("Challan already generated");
+        }
+
+        Challan  challan = new Challan();
+
+        challan.setNotice(notice);
+
+        challan.setAmount(notice.getViolation().getOffence().getChallanAmount());
+
+        challan.setChallanNo("CHL" +System.currentTimeMillis());
+
+        challan.setIssue_date(new Date());
+
+        Calendar calendar= Calendar.getInstance();calendar.add(Calendar.DAY_OF_MONTH,15);
+
+        challan.setDue_date(calendar.getTime());
+
+        challan.setCreatedBy(null);
+
+        challan.setStatus(ChallanStatus.PENDING);
+
+       return challanRepository.save(challan);
     }
 }
