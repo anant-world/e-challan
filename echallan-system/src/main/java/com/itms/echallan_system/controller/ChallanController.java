@@ -21,4 +21,6 @@ public class ChallanController {
     public ResponseEntity<Challan> generate(@PathVariable Long noticeId){
         return ResponseEntity.ok(challanService.generateChallan(noticeId));
     }
+
+
 }
