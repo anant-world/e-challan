@@ -6,10 +6,10 @@ import com.itms.echallan_system.entity.Violation;
 import com.itms.echallan_system.exception.ResourceNotFoundException;
 import com.itms.echallan_system.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+
 import java.util.Calendar;
 import java.util.Date;
 

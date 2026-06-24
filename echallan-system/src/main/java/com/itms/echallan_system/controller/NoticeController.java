@@ -29,6 +29,4 @@ public class NoticeController {
             noticeService.reject(id);
             return ResponseEntity.ok("Notice rejected successfully");
         }
-
-
 }
