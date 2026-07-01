@@ -96,8 +96,9 @@ public class Violation {
     @Column(name = "action_time")
     private LocalDateTime actionTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private ViolationStatus status;
 
     @Column(name = "verified_at")
     private LocalDateTime verifiedAt;

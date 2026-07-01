@@ -5,6 +5,7 @@ import com.itms.echallan_system.entity.Notices;
 import com.itms.echallan_system.entity.Violation;
 import com.itms.echallan_system.exception.ResourceNotFoundException;
 import com.itms.echallan_system.repository.NoticeRepository;
+import com.itms.echallan_system.repository.ViolationRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -44,26 +45,5 @@ public class NoticeServiceImple implements NoticeService{
         return noticeRepository.save(notice);
     }
 
-    @Override
-    public void approve(Long noticeId) {
-        Notices notice = noticeRepository.findById(noticeId).orElseThrow(()-> new ResourceNotFoundException("Notice not found"+noticeId));
-
-        if(notice.getStatus()==NoticeStatus.APPROVED) {
-            throw new RuntimeException("notice already approved");
-        }
-        notice.setStatus(NoticeStatus.APPROVED);
-        noticeRepository.save(notice);
-    }
-
-    @Override
-    public void reject(Long noticeId) {
-        Notices notice= noticeRepository.findById(noticeId).orElseThrow(()->new ResourceNotFoundException("Notice rejected"+noticeId));
-
-        if(notice.getStatus()==NoticeStatus.REJECTED){
-            throw new RuntimeException("notice already rejected");
-        }
-        notice.setStatus(NoticeStatus.REJECTED);
-        noticeRepository.save(notice);
-    }
 
 }

@@ -14,7 +14,7 @@ public class PushViolationResponseDto {
 
     private Object CctvNoticeData;
 
-    private List<Object> rejectedData;
+    private List<RejectedDataDto> rejectedData;
 
     private ResponseMessageDto responseMessageData;
 }

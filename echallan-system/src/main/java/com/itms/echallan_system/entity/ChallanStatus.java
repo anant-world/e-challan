@@ -4,5 +4,5 @@ public enum ChallanStatus {
     PENDING,
     PAID,
     CANCELLED,
-    OVERDUE
+    OVERDUE,
 }

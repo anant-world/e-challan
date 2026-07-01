@@ -8,5 +8,7 @@ public interface VoilationService {
 
     PushViolationResponseDto pushData(PushViolationRequestDto request);
 
+    void approve(Long id);
+    void reject (Long id);
 
 }

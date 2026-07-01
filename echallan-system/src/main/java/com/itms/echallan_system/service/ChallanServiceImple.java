@@ -84,5 +84,7 @@ public class ChallanServiceImple implements ChallanService{
         challan.setStatus(ChallanStatus.PENDING);
 
        return challanRepository.save(challan);
+
+       
     }
 }
