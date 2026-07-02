@@ -25,6 +25,8 @@ public class Notification {
     @JoinColumn(name = "violation_id")
     private Violation violation;
 
+    private String recipient;
+
     private String mobileNo;
 
     private String message;
@@ -37,6 +39,8 @@ public class Notification {
     @Column(name = "sent_at",updatable = false)
     private LocalDateTime sentAt;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private NotificationStatus status;
 
 }

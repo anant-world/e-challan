@@ -18,7 +18,7 @@ public class ChallanServiceImple implements ChallanService{
 
     private final ChallanRepository challanRepository;
     private final NoticeRepository noticeRepository;
-
+    private final NotificationService notificationService;
 
 
     public Challan generateChallan(Long noticeId){
@@ -48,7 +48,11 @@ public class ChallanServiceImple implements ChallanService{
 
 
 
-        return challanRepository.save(challan);
+        Challan savedChallan=challanRepository.save(challan);
+
+        notificationService.ChallanGenerateNoti(savedChallan);
+
+        return savedChallan;
 
     }
 
@@ -83,8 +87,10 @@ public class ChallanServiceImple implements ChallanService{
 
         challan.setStatus(ChallanStatus.PENDING);
 
-       return challanRepository.save(challan);
+       Challan savedChallan= challanRepository.save(challan);
 
-       
+
+       return savedChallan;
+
     }
 }

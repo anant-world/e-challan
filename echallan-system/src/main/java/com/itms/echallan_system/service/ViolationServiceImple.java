@@ -2,7 +2,6 @@ package com.itms.echallan_system.service;
 
 import com.itms.echallan_system.dto.*;
 import com.itms.echallan_system.entity.*;
-import com.itms.echallan_system.exception.DuplicateExceptionHandle;
 import com.itms.echallan_system.exception.ResourceNotFoundException;
 import com.itms.echallan_system.exception.ValidateException;
 import com.itms.echallan_system.repository.EvidencesRepository;
@@ -11,14 +10,14 @@ import com.itms.echallan_system.repository.VehicleRepository;
 import com.itms.echallan_system.repository.ViolationRepository;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import java.nio.file.Path;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -267,9 +266,9 @@ public class ViolationServiceImple implements VoilationService{
 
 
         
+        responseSave.setCctvNoticeData(request.getCctvNoticeData());
+
         return responseSave;
-
-
 
 
 
@@ -317,21 +316,7 @@ public class ViolationServiceImple implements VoilationService{
 
 
     }
-    private void validate(CctvNoticeDto dto){
 
-
-
-        if (violationRepository.existsByTransactionNo(dto.getTransationNo())){
-            System.out.println("inside validata and violation repository method");
-            throw new ValidateException("Transation number is already exsist");
-
-        }
-        if (offenceRepository.findByOffenceCode(dto.getOffenceId()).isEmpty()){
-            System.out.println("inside validate offence repository method");
-            throw new ValidateException("Invalid offence id");
-        }
-
-    }
 
     private void fieldValidation(CctvNoticeDto dto){
         if(dto.getTransationNo()==null || dto.getTransationNo().isBlank()){
@@ -375,6 +360,20 @@ public class ViolationServiceImple implements VoilationService{
         }
         else if (dto.getDpCd()==null || dto.getDpCd().isBlank()){
             throw new ValidateException("DP Code is mandatory");
+        }
+    }
+    private void validate(CctvNoticeDto dto){
+
+
+
+        if (violationRepository.existsByTransactionNo(dto.getTransationNo())){
+            System.out.println("inside validata and violation repository method");
+            throw new ValidateException("Transation number is already exsist");
+
+        }
+        if (offenceRepository.findByOffenceCode(dto.getOffenceId()).isEmpty()){
+            System.out.println("inside validate offence repository method");
+            throw new ValidateException("Invalid offence id");
         }
     }
 }

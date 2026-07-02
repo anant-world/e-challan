@@ -19,7 +19,7 @@ import java.util.Date;
 public class NoticeServiceImple implements NoticeService{
 
     private final NoticeRepository noticeRepository;
-
+    private final NotificationService notificationService;
 
 
     @Override
@@ -42,8 +42,9 @@ public class NoticeServiceImple implements NoticeService{
 
 
 
-        return noticeRepository.save(notice);
+       Notices savedNotice = noticeRepository.save(notice);
+        notificationService.sentNotification(savedNotice);
+        return savedNotice;
     }
-
 
 }

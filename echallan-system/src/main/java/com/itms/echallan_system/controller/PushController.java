@@ -53,5 +53,4 @@ public class PushController {
         voilationService.reject(id);
         return ResponseEntity.ok("Not guilty violation rejected");
     }
-
 }
